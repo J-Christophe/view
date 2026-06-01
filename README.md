@@ -39,8 +39,11 @@ The fields in the table below can be used in these parts of STAC documents:
 | view:moon_azimuth    | number | Moon azimuth angle. From the scene center point on the ground, this is the angle between truth north and the moon. Measured clockwise in degrees (0-360). |
 | view:moon_elevation  | number | Moon elevation angle. The angle from the tangent of the scene center point to the moon. Measured from the horizon in degrees (`0`-`90`). |
 
+`Nadir` is defined as a vector running from the satellite to the center of the earth. The `sub-satellite point`
+is the point where the nadir vector intersects the earth's surface.
+
 The angles `off_nadir` and `incidence_angle` are angles measured on a 2d plane formed by the sensor location,
-the sub-satellite point on the earth, and the center of the target area as shown in the diagram below.  Grazing
+the sub-satellite point on the earth, and the scene center point as shown in the diagram below.  Grazing
 angle is shown as it is frequently used but it is not included in this extension because it is simply the
 complement of the incidence angle. When the off-nadir angle is low (low incidence angle) then the two angles are
 approximately equal. However, at high off-nadir angles with high altitude sensors the curvature of the earth
@@ -50,7 +53,7 @@ has an impact and the two angles are no longer equivalent.
 
 The `azimuth` (`sun_azimuth`, `moon_azimuth`), and the `elevation` (`sun_elevation`, `moon_elevation`) angles are measured
 as per the diagram below. Azimuth angles are measured as degrees from North, and elevation angles are measured up from
-the target plane to the body (satellite, sun, or moon).
+the scene plane to the body (satellite, sun, or moon).
 
 <img src="images/view-angles-2.png" width="546" alt="Viewing Angles: Sun and Moon Elevation and Azimuth" />
 

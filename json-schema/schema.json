@@ -108,7 +108,8 @@
         { "required": ["view:sun_azimuth"] },
         { "required": ["view:sun_elevation"] },
         { "required": ["view:moon_azimuth"] },
-        { "required": ["view:moon_elevation"] }
+        { "required": ["view:moon_elevation"] },
+        { "required": ["view:phase_angle"] }
       ]
     },
     "fields": {
@@ -156,6 +157,12 @@
           "type": "number",
           "minimum": 0,
           "maximum": 90
+        },
+        "view:phase_angle": {
+          "title": "Phase angle",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 180
         }
       },
       "patternProperties": {

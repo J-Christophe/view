@@ -49,7 +49,8 @@
     "gsd": 0.66,
     "view:sun_elevation": 54.9,
     "view:off_nadir": 3.8,
-    "view:sun_azimuth": 135.7
+    "view:sun_azimuth": 135.7,
+    "view:phase_angle": 42.7
   },
   "links": [],
   "assets": {

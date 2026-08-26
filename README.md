@@ -38,6 +38,7 @@ The fields in the table below can be used in these parts of STAC documents:
 | view:sun_elevation   | number | Sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (`-90`-`90`). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during [nautical twilight](https://www.timeanddate.com/astronomy/different-types-twilight.html). |
 | view:moon_azimuth    | number | Moon azimuth angle. From the scene center point on the ground, this is the angle between truth north and the moon. Measured clockwise in degrees (0-360). |
 | view:moon_elevation  | number | Moon elevation angle. The angle from the tangent of the scene center point to the moon. Measured from the horizon in degrees (`0`-`90`). |
+| view:phase_angle     | number | Phase angle. The angle measured at the target between the direction to the illumination source (e.g. the sun) and the direction to the observer (sensor), evaluated at the scene center. Measured in degrees (`0`-`180`). A phase angle of 0° is opposition geometry (the sun is directly behind the observer), while 180° occurs when the target is between the observer and the sun. |
 
 `Nadir` is defined as a vector running from the satellite to the center of the earth. The `sub-satellite point`
 is the point where the nadir vector intersects the earth's surface.
@@ -56,6 +57,17 @@ as per the diagram below. Azimuth angles are measured as degrees from North, and
 the scene plane to the body (satellite, sun, or moon).
 
 <img src="images/view-angles-2.png" width="546" alt="Viewing Angles: Sun and Moon Elevation and Azimuth" />
+
+The `phase_angle` is the angle measured at the scene center (target point `P`) between the direction to the
+sun and the direction to the satellite, as shown in the diagram below. It can be derived from the
+`incidence_angle` (`i`), an emission/observer angle (`e`, approximated by the `off_nadir` angle in the
+simple case) and the relative `azimuth` (`a`) between the sun and the sensor, using:
+
+```text
+cos(phase_angle) = cos(i) * cos(e) + cos(a) * sin(i) * sin(e)
+```
+
+<img src="images/view-angles-3.png" width="546" alt="Viewing Angles: Phase Angle" />
 
 ## Asset Roles
 

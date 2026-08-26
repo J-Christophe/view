@@ -58,10 +58,7 @@ the scene plane to the body (satellite, sun, or moon).
 
 <img src="images/view-angles-2.png" width="546" alt="Viewing Angles: Sun and Moon Elevation and Azimuth" />
 
-The `phase_angle` is the angle measured at the scene center (target point `P`) between the direction to the
-sun and the direction to the satellite, as shown in the diagram below. It can be derived from the
-`incidence_angle` (`i`), an emission/observer angle (`e`, approximated by the `off_nadir` angle in the
-simple case) and the relative `azimuth` (`a`) between the sun and the sensor, using:
+The  `phase_angle` is the angle measured at the scene center (target point `P`) between the direction to the sun and the direction to the satellite, as shown in the diagram below. It can be derived from the    `solar incidence angle` (`i`, the angle between the local surface normal and the direction to the sun — equivalent to `90° - sun_elevation`), the `emergence/observer angle` (`e`, the angle between the local surface normal and the direction to the sensor, given by incidence_angle, or approximated by off_nadir in the simple case), and the relative `azimuth` (`a`) between the sun and the sensor, using:
 
 ```text
 cos(phase_angle) = cos(i) * cos(e) + cos(a) * sin(i) * sin(e)

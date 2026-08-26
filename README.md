@@ -85,6 +85,7 @@ all tend to be additional files that contain specific values for every single pi
 | sun-elevation        | Points to a file with per-pixel sun elevation angles. |
 | moon-azimuth         | Points to a file with per-pixel moon azimuth angles. |
 | moon-elevation       | Points to a file with per-pixel moon elevation angles. |
+| phase-angle          | Points to a file with per-pixel phase angles. |
 | terrain-shadow       | Points to a file that indicates whether a pixel is not directly illuminated due to terrain shadowing. |
 | terrain-occlusion    | Points to a file that indicates whether a pixel is not visible to the sensor due to terrain occlusion during off-nadir viewing. |
 | terrain-illumination | Points to a file with coefficients used for terrain illumination correction are provided for each pixel. |

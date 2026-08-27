@@ -32,25 +32,32 @@ The fields in the table below can be used in these parts of STAC documents:
 | Field Name           | Type   | Description |
 | -------------------- | ------ | ----------- |
 | view:off_nadir       | number | The angle from the sensor between nadir (straight down) and the scene center. Measured in degrees (0-90). |
-| view:incidence_angle | number | The incidence angle is the angle between the vertical (normal) to the intercepting surface and the line of sight back to the satellite at the scene center. Measured in degrees (0-90). |
-| view:azimuth         | number | Viewing azimuth angle. The angle measured from the sub-satellite point (point on the ground below the platform) between the scene center and true north. Measured clockwise from north in degrees (0-360). |
-| view:sun_azimuth     | number | Sun azimuth angle. From the scene center point on the ground, this is the angle between truth north and the sun. Measured clockwise in degrees (0-360). |
-| view:sun_elevation   | number | Sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (`-90`-`90`). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during [nautical twilight](https://www.timeanddate.com/astronomy/different-types-twilight.html). |
-| view:moon_azimuth    | number | Moon azimuth angle. From the scene center point on the ground, this is the angle between truth north and the moon. Measured clockwise in degrees (0-360). |
-| view:moon_elevation  | number | Moon elevation angle. The angle from the tangent of the scene center point to the moon. Measured from the horizon in degrees (`0`-`90`). |
-| view:phase_angle     | number | Phase angle. The angle measured at the target between the direction to the illumination source (e.g. the sun) and the direction to the observer (sensor), evaluated at the scene center. Measured in degrees (`0`-`180`). A phase angle of 0° is opposition geometry (the sun is directly behind the observer), while 180° occurs when the target is between the observer and the sun. |
+| view:incidence_angle | number | The incidence angle is the angle between the vertical (normal) to the intercepting surface and the light source at the scene center. Measured in degrees (0-90). |
+| view:emergence_angle | number | The emergence angle is the angle between the vertical (normal) to the intercepting surface and the line of sight back to the satellite at the scene center. Measured in degrees (0-90). |
+| view:azimuth         | number | Viewing azimuth angle. The angle measured from the scene between the true north and the sub-satellite point (point on the ground below the platform). Measured clockwise from north in degrees (0-360). |
+| view:sun_azimuth     | number | Sun azimuth angle. The angle measured from the scene center between the true north and the Sun (subsolar point). Measured clockwise in degrees (0-360). |
+| view:sun_elevation   | number | Sun elevation angle. The angle from the tangent plane of the scene center point to the sun. Measured from the horizon in degrees (`-90`-`90`). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during [nautical twilight](https://www.timeanddate.com/astronomy/different-types-twilight.html). |
+| view:moon_azimuth    | number | Moon azimuth angle. From the scene center point on the ground, this is the angle between true north and the moon (sub-moon point). Measured clockwise in degrees (0-360). |
+| view:moon_elevation  | number | Moon elevation angle. The angle from the tangent plane of the scene center point to the moon. Measured from the horizon in degrees (`-90`-`90`). |
+| view:phase_angle     | number | Phase angle. The angle measured from the target between the direction to the illumination source (e.g. the sun) and the direction to the observer (sensor), evaluated at the scene center. Measured in degrees (`0`-`180`). A phase angle of 0° is opposition geometry (the sun is directly behind the observer), while 180° occurs when the target is between the observer and the sun. |
 
 `Nadir` is defined as a vector running from the satellite to the center of the earth. The `sub-satellite point`
 is the point where the nadir vector intersects the earth's surface.
 
-The angles `off_nadir` and `incidence_angle` are angles measured on a 2d plane formed by the sensor location,
+The angles `off_nadir` and `emergence_angle` are angles measured on a 2d plane formed by the sensor location,
 the sub-satellite point on the earth, and the scene center point as shown in the diagram below.  Grazing
 angle is shown as it is frequently used but it is not included in this extension because it is simply the
-complement of the incidence angle. When the off-nadir angle is low (low incidence angle) then the two angles are
+complement of the emergence angle. When the off-nadir angle is low (low emergence angle) then the two angles are
 approximately equal. However, at high off-nadir angles with high altitude sensors the curvature of the earth
 has an impact and the two angles are no longer equivalent.
 
-<img src="images/view-angles-1.png" width="546" alt="Viewing Angles: Off-Nadir, Grazing, Incidence" />
+The diagram also shows the `incidence_angle`, measured at the scene center between the local vertical and the
+line back to the illumination source (the sun for an optical sensor, or the satellite itself for a monostatic
+SAR sensor, since the transmitter and receiver are co-located). The `emergence_angle` is drawn as the ray from
+the ground to the satellite, and the `incidence_angle` as the ray from the source down to the ground, matching
+how each angle is actually observed.
+
+<img src="images/view-angles-1.png" width="546" alt="Viewing Angles: Off-Nadir, Grazing, Emergence, Incidence" />
 
 The `azimuth` (`sun_azimuth`, `moon_azimuth`), and the `elevation` (`sun_elevation`, `moon_elevation`) angles are measured
 as per the diagram below. Azimuth angles are measured as degrees from North, and elevation angles are measured up from
@@ -58,11 +65,18 @@ the scene plane to the body (satellite, sun, or moon).
 
 <img src="images/view-angles-2.png" width="546" alt="Viewing Angles: Sun and Moon Elevation and Azimuth" />
 
-The  `phase_angle` is the angle measured at the scene center (target point `P`) between the direction to the sun and the direction to the satellite, as shown in the diagram below. It can be derived from the    `solar incidence angle` (`i`, the angle between the local surface normal and the direction to the sun — equivalent to `90° - sun_elevation`), the `emergence/observer angle` (`e`, the angle between the local surface normal and the direction to the sensor, given by incidence_angle, or approximated by off_nadir in the simple case), and the relative `azimuth` (`a`) between the sun and the sensor, using:
+The `phase_angle` is the angle measured at the scene center (target point `P`) between the direction to the
+sun and the direction to the satellite, as shown in the diagram below. It can be derived from the
+`incidence_angle` (`i`, the angle between the local surface normal and the direction to the sun), the
+`emergence_angle` (`e`, the angle between the local surface normal and the direction to the sensor, approximated
+by `off_nadir` in the simple case), and the relative `azimuth` (`a`) between the sun and the sensor, using:
 
 ```text
 cos(phase_angle) = cos(i) * cos(e) + cos(a) * sin(i) * sin(e)
 ```
+
+For a monostatic SAR sensor, where the transmitter and receiver are co-located, `incidence_angle` and
+`emergence_angle` are equal (`view:incidence_angle` = `view:emergence_angle`).
 
 <img src="images/view-angles-3.png" width="546" alt="Viewing Angles: Phase Angle" />
 
@@ -77,6 +91,7 @@ all tend to be additional files that contain specific values for every single pi
 | Role Name            | Description |
 | -------------------- | ----------- |
 | incidence-angle      | Points to a file with per-pixel incidence angles. |
+| emergence-angle      | Points to a file with per-pixel emergence angles. |
 | azimuth              | Points to a file with per-pixel azimuth angles. |
 | sun-azimuth          | Points to a file with per-pixel sun azimuth angles. |
 | sun-elevation        | Points to a file with per-pixel sun elevation angles. |

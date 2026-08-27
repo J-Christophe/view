@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `view:phase_angle`
+- `view:emergence_angle`
+
+### Changed
+
+- **Breaking**: `view:incidence_angle` now refers to the solar incidence angle (angle between the surface
+  normal and the direction to the illumination source), not the satellite viewing angle. Use the new
+  `view:emergence_angle` for the angle to the satellite (this is what `view:incidence_angle` used to mean).
+- `view:moon_elevation` now allows negative values (`-90`-`90`), consistent with `view:sun_elevation`
 
 ## [v1.1.0] - 2025-07-18
 

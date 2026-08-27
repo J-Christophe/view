@@ -104,6 +104,7 @@
       "anyOf": [
         { "required": ["view:off_nadir"] },
         { "required": ["view:incidence_angle"] },
+        { "required": ["view:emergence_angle"] },
         { "required": ["view:azimuth"] },
         { "required": ["view:sun_azimuth"] },
         { "required": ["view:sun_elevation"] },
@@ -118,48 +119,63 @@
       "properties": {
         "view:off_nadir": {
           "title": "Off Nadir",
+          "description": "The angle from the sensor between nadir (straight down) and the scene center. Measured in degrees (0-90).",
           "type": "number",
           "minimum": 0,
           "maximum": 90
         },
         "view:incidence_angle": {
           "title": "Center incidence angle",
+          "description": "The incidence angle is the angle between the vertical (normal) to the intercepting surface and the light source at the scene center. Measured in degrees (0-90).",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "view:emergence_angle": {
+          "title": "Center emergence angle",
+          "description": "The emergence angle is the angle between the vertical (normal) to the intercepting surface and the line of sight back to the satellite at the scene center. Measured in degrees (0-90).",
           "type": "number",
           "minimum": 0,
           "maximum": 90
         },
         "view:azimuth": {
           "title": "Azimuth angle",
+          "description": "Viewing azimuth angle. The angle measured from the scene between the true north and the sub-satellite point (point on the ground below the platform). Measured clockwise from north in degrees (0-360).",
           "type": "number",
           "minimum": 0,
           "maximum": 360
         },
         "view:sun_azimuth": {
           "title": "Sun Azimuth",
+          "description": "Sun azimuth angle. The angle measured from the scene center between the true north and the Sun (subsolar point). Measured clockwise in degrees (0-360).",
           "type": "number",
           "minimum": 0,
           "maximum": 360
         },
         "view:sun_elevation": {
           "title": "Sun Elevation",
+          "description": "Sun elevation angle. The angle from the tangent plane of the scene center point to the sun. Measured from the horizon in degrees (-90-90). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10 degrees means the data was captured during nautical twilight.",
           "type": "number",
           "minimum": -90,
           "maximum": 90
         },
         "view:moon_azimuth": {
           "title": "Moon Azimuth",
+          "description": "Moon azimuth angle. From the scene center point on the ground, this is the angle between true north and the moon (sub-moon point). Measured clockwise in degrees (0-360).",
           "type": "number",
           "minimum": 0,
           "maximum": 360
         },
         "view:moon_elevation": {
           "title": "Moon Elevation",
+          "description": "Moon elevation angle. The angle from the tangent plane of the scene center point to the moon. Measured from the horizon in degrees (-90-90).",
           "type": "number",
-          "minimum": 0,
+          "minimum": -90,
           "maximum": 90
         },
         "view:phase_angle": {
           "title": "Phase angle",
+          "description": "Phase angle. The angle measured from the target between the direction to the illumination source (e.g. the sun) and the direction to the observer (sensor), evaluated at the scene center. Measured in degrees (0-180). A phase angle of 0 degrees is opposition geometry (the sun is directly behind the observer), while 180 degrees occurs when the target is between the observer and the sun.",
           "type": "number",
           "minimum": 0,
           "maximum": 180
